@@ -12,13 +12,18 @@
 
 	
 5. Agregar lo siguientes permisos a la APP
+   
 https://www.googleapis.com/auth/drive
+
 https://www.googleapis.com/auth/drive.file
+
 https://www.googleapis.com/auth/drive.metadata
+
 https://www.googleapis.com/auth/drive.metadata.readonly
 
+
 	
-6. Generar un archivo “**config.json**” con los siguientes datos: ( Se podrán modificar según su preferencia en el mismo archivo)
+7. Generar un archivo “**config.json**” con los siguientes datos: ( Se podrán modificar según su preferencia en el mismo archivo)
 
 ### BaseDeDatos
 
