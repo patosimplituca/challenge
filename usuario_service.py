@@ -3,8 +3,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import json
 
-from db_service import BaseDeDatosService
-
 class UsuarioService:
     def enviar_correo(self, destinatario, asunto, cuerpo):
         with open('config.json') as f:
@@ -32,6 +30,7 @@ class UsuarioService:
             tipo_archivo = archivo_info.get('mimeType', 'Tipo no disponible')
             owner = archivo_info['owners'][0]['displayName'] if 'owners' in archivo_info and archivo_info['owners'] else 'Owner no disponible'
             fecha_modificacion_str = archivo_info.get('modifiedTime', None)
+            from db_service import BaseDeDatosService
             fecha_modificacion = BaseDeDatosService().convertir_a_zona_horaria_local(fecha_modificacion_str) if fecha_modificacion_str else None
 
             permisos_actuales = servicio_drive.permissions().list(fileId=id_archivo).execute()
@@ -49,12 +48,11 @@ class UsuarioService:
             BaseDeDatosService().guardar_archivo(nombre_archivo, tipo_archivo, owner, 'Privado', fecha_modificacion, id_archivo=id_archivo)
             
             self.enviar_correo(owner_email, "Cambio de configuración de archivo",
-                        f"Estimado {owner_email},\n\nLe informamos que su archivo con ID {id_archivo} ha sido cambiado a privado.\n\nAtentamente,\nEl equipo de soporte")
+                        f"Estimado {owner_email},\n\nLe informamos que su archivo '{nombre_archivo}' con ID {id_archivo} ha sido cambiado a privado.\n\nAtentamente,\nEl equipo de soporte")
             
             print("Se ha enviado un correo electrónico al propietario del archivo para notificar el cambio.")
 
         except Exception as e:
             print("Se produjo un error al convertir el archivo a privado:", str(e))
             self.enviar_correo(owner_email, "Error al cambiar la configuración de archivo",
-                        f"Estimado {owner_email},\n\nSe produjo un error al intentar cambiar su archivo con ID {id_archivo} a privado. Por favor, póngase en contacto con el soporte técnico para obtener ayuda.\n\nAtentamente,\nEl equipo de soporte")    
-
+                        f"Estimado {owner_email},\n\nSe produjo un error al intentar cambiar su archivo '{nombre_archivo}' con ID {id_archivo} a privado. Por favor, póngase en contacto con el soporte técnico para obtener ayuda.\n\nAtentamente,\nEl equipo de soporte")

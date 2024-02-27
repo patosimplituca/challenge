@@ -1,0 +1,21 @@
+{
+    "BaseDeDatos": {
+        "Host":"localhost",
+        "User":"root",
+        "password":"",
+        "database": ""
+    },
+
+    "Drive": {
+        "smtp_server":"smtp.gmail.com",
+        "puerto":"587",
+        "usuario":"",
+        "password":""
+    }
+
+
+}
+
+
+
+
